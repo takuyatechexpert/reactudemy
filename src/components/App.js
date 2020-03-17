@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { increment, decrement } from '../actions'
+import { readEvents } from '../actions'
 // import PropTypes from 'prop-types';
 
 class App extends Component {
