@@ -3,6 +3,9 @@ import { connect } from 'react-redux'
 import { readEvents } from '../actions'
 import _ from 'lodash'
 import { Link } from 'react-router-dom'
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentAdd from 'material-ui/svg-icons/content/add'
 
 class EventsIndex extends Component {
   componentDidMount() {
@@ -11,34 +14,42 @@ class EventsIndex extends Component {
 
   renderEvents() {
     return _.map(this.props.events, event => (
-      <tr key={event.id}>
-        <td>{event.id}</td>
-        <td>
+      <TableRow key={event.id}>
+        <TableRowColumn>{event.id}</TableRowColumn>
+        <TableHeaderColumn>
           <Link to={`/events/${event.id}`}>
             {event.title}
           </Link>
-        </td>
-        <td>{event.body}</td>
-      </tr>
+        </TableHeaderColumn>
+        <TableRowColumn>{event.body}</TableRowColumn>
+      </TableRow>
     ))
   }
 
   render() {
+const style = {
+  position: "fixed",
+  right: 12,
+  bottom: 12
+}
+
     return (
       <React.Fragment>
-        <table className="text-center">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Title</th>
-              <th>Boby</th>
-            </tr>
-          </thead>
-          <tbody>
+        <FloatingActionButton style={style} containerElement={<Link to="/events/new" />}>
+          <ContentAdd />
+        </FloatingActionButton>
+        <Table>
+          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+            <TableRow>
+              <TableHeaderColumn>ID</TableHeaderColumn>
+              <TableHeaderColumn>Title</TableHeaderColumn>
+              <TableHeaderColumn>Boby</TableHeaderColumn>
+            </TableRow>
+          </TableHeader>
+          <TableBody displayRowCheckbox={false}>
             {this.renderEvents()}
-          </tbody>
-        </table>
-        <Link to="/events/new">New Event</Link>
+          </TableBody>
+        </Table>
       </React.Fragment>
     )
   }
